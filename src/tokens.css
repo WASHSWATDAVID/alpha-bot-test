@@ -1,0 +1,43 @@
+/* ============================================
+   Design Tokens — 세탁특공대 로그인 페이지
+   Source: design-spec.md (alpha-designer)
+   ============================================ */
+
+:root {
+  /* --- Brand Primary (Blue) --- */
+  --color-primary-10: #f4f8ff;
+  --color-primary-20: #e9f1fe;
+  --color-primary-100: #d2e3fe;
+  --color-primary-300: #a5c6fd;
+  --color-primary-500: #4c8dfb;
+  --color-primary-600: #1f71fa;
+  --color-primary-700: #195ac8;
+  --color-primary-800: #134496;
+
+  /* --- Neutral (Cool Gray) --- */
+  --color-gray-10: #f5f6f7;
+  --color-gray-20: #ecedef;
+  --color-gray-30: #e2e4e7;
+  --color-gray-50: #d9dbdf;
+  --color-gray-300: #8c93a0;
+  --color-gray-400: #656f80;
+  --color-gray-500: #3f4b60;
+  --color-gray-700: #262d3a;
+  --color-gray-900: #0d0f13;
+
+  /* --- Semantic --- */
+  --color-error: #e53935;
+  --color-white: #ffffff;
+
+  /* --- Typography --- */
+  --font-family: 'Pretendard', system-ui, -apple-system, sans-serif;
+
+  /* --- Spacing --- */
+  --space-4: 4px;
+  --space-6: 6px;
+  --space-8: 8px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-40: 40px;
+  --space-48: 48px;
+}

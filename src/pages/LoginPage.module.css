@@ -1,0 +1,137 @@
+/* ===========================
+   LoginPage Layout
+   =========================== */
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background-color: var(--color-gray-10);
+  padding: var(--space-48) 20px var(--space-24);
+}
+
+/* Mobile: no card chrome */
+.card {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Desktop: card style */
+@media (min-width: 768px) {
+  .page {
+    align-items: center;
+    padding: 0;
+  }
+
+  .card {
+    background-color: var(--color-white);
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: var(--space-48);
+  }
+}
+
+/* ===========================
+   Logo
+   =========================== */
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  margin-bottom: var(--space-40);
+}
+
+.logoIcon {
+  font-size: 32px;
+  line-height: 1;
+}
+
+.logoText {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-gray-900);
+}
+
+/* ===========================
+   Form
+   =========================== */
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+}
+
+.forgotWrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-8);
+}
+
+.forgotLink {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-primary-500);
+  text-decoration: none;
+  transition: text-decoration 150ms ease;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+.forgotLink:focus-visible {
+  outline: 2px solid var(--color-primary-300);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.buttonWrapper {
+  margin-top: var(--space-24);
+}
+
+/* ===========================
+   Signup
+   =========================== */
+
+.signup {
+  text-align: center;
+  margin-top: var(--space-24);
+}
+
+.signupText {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-gray-400);
+}
+
+.signupLink {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--color-primary-600);
+  text-decoration: none;
+  transition: text-decoration 150ms ease;
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+}
+
+.signupLink:focus-visible {
+  outline: 2px solid var(--color-primary-300);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
