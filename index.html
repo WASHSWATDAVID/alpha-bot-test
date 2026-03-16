@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Trainders — 로그인</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -128,6 +130,11 @@
     }
     .form-group.error .error-message {
       display: block;
+    }
+    /* filled state */
+    .form-group.filled .form-input {
+      background: var(--color-white);
+      border-color: var(--color-gray-100);
     }
 
     /* ─── Password Toggle ──────────────────────────────────────── */
@@ -368,9 +375,15 @@
       else group.classList.remove('error');
     }
 
-    /* Clear errors on input */
-    emailInput.addEventListener('input', () => setError(emailGroup, false));
-    passwordInput.addEventListener('input', () => setError(passwordGroup, false));
+    /* Clear errors on input + filled state */
+    emailInput.addEventListener('input', () => {
+      emailGroup.classList.toggle('filled', emailInput.value.length > 0);
+      setError(emailGroup, false);
+    });
+    passwordInput.addEventListener('input', () => {
+      passwordGroup.classList.toggle('filled', passwordInput.value.length > 0);
+      setError(passwordGroup, false);
+    });
 
     /* ── Submit ── */
     form.addEventListener('submit', async (e) => {
