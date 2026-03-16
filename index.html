@@ -3,44 +3,402 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello Alpha</title>
+  <title>Trainders — 로그인</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    /* ─── Color Tokens ─────────────────────────────────────────── */
+    :root {
+      --color-primary-500: #4c8dfb;
+      --color-primary-600: #1f71fa;
+      --color-primary-700: #195ac8;
+      --color-gray-10:  #f5f6f7;
+      --color-gray-20:  #ecedef;
+      --color-gray-100: #d0d3d9;
+      --color-gray-300: #8c93a0;
+      --color-gray-700: #262d3a;
+      --color-error:    #e53935;
+      --color-white:    #ffffff;
+
+      --radius-input:   10px;
+      --radius-card:    16px;
+      --height-control: 52px;
     }
 
+    /* ─── Reset ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ─── Base ─────────────────────────────────────────────────── */
     body {
       min-height: 100vh;
+      background: var(--color-gray-10);
+      font-family: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--color-gray-700);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #0f0f0f;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      padding: 24px 16px;
     }
 
-    main {
+    /* ─── Card ─────────────────────────────────────────────────── */
+    .login-card {
+      background: var(--color-white);
+      border-radius: var(--radius-card);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 4px 24px rgba(38, 45, 58, 0.08);
+    }
+
+    /* ─── Logo ─────────────────────────────────────────────────── */
+    .logo-area {
       text-align: center;
-      animation: fadeIn 0.8s ease-in-out;
+      margin-bottom: 36px;
     }
-
-    h1 {
-      color: #e8e8e8;
-      font-size: clamp(2rem, 8vw, 5rem);
-      letter-spacing: -0.02em;
+    .logo-wordmark {
+      font-size: 28px;
       font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--color-primary-600);
+    }
+    .logo-tagline {
+      font-size: 13px;
+      color: var(--color-gray-300);
+      margin-top: 4px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to   { opacity: 1; transform: translateY(0); }
+    /* ─── Form ─────────────────────────────────────────────────── */
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-gray-700);
+      margin-bottom: 6px;
+    }
+    .input-wrapper {
+      position: relative;
+    }
+    .form-input {
+      width: 100%;
+      height: var(--height-control);
+      padding: 0 16px;
+      background: var(--color-gray-20);
+      border: 1.5px solid transparent;
+      border-radius: var(--radius-input);
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--color-gray-700);
+      outline: none;
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+    /* password input — room for toggle button */
+    .form-input.has-toggle {
+      padding-right: 52px;
+    }
+    /* States */
+    .form-input::placeholder {
+      color: var(--color-gray-300);
+    }
+    .form-input:focus {
+      background: var(--color-white);
+      border-color: var(--color-primary-600);
+      box-shadow: 0 0 0 3px rgba(31, 113, 250, 0.14);
+    }
+    .form-input:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .form-group.error .form-input {
+      border-color: var(--color-error);
+      background: #fff5f5;
+    }
+    .form-group.error .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.12);
+    }
+    .error-message {
+      display: none;
+      font-size: 12px;
+      color: var(--color-error);
+      margin-top: 5px;
+    }
+    .form-group.error .error-message {
+      display: block;
+    }
+
+    /* ─── Password Toggle ──────────────────────────────────────── */
+    .pw-toggle {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: var(--height-control);
+      width: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--color-gray-300);
+      transition: color 0.15s;
+    }
+    .pw-toggle:hover { color: var(--color-gray-700); }
+    .pw-toggle svg { width: 20px; height: 20px; }
+    .icon-eye-off { display: none; }
+    .pw-toggle.visible .icon-eye { display: none; }
+    .pw-toggle.visible .icon-eye-off { display: block; }
+
+    /* ─── Forgot Password ──────────────────────────────────────── */
+    .forgot-row {
+      text-align: right;
+      margin-top: 8px;
+    }
+    .forgot-link {
+      font-size: 13px;
+      color: var(--color-primary-500);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .forgot-link:hover { color: var(--color-primary-700); text-decoration: underline; }
+
+    /* ─── CTA Button ───────────────────────────────────────────── */
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      height: var(--height-control);
+      margin-top: 24px;
+      background: var(--color-primary-600);
+      color: var(--color-white);
+      border: none;
+      border-radius: var(--radius-input);
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-primary-700);
+    }
+    .btn-primary:active:not(:disabled) {
+      transform: scale(0.99);
+    }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Loading state */
+    .btn-primary .btn-text { transition: opacity 0.15s; }
+    .btn-primary .btn-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(255,255,255,0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .btn-primary.loading .btn-text { opacity: 0; position: absolute; }
+    .btn-primary.loading .btn-spinner { display: block; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── Divider ──────────────────────────────────────────────── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 28px 0;
+      color: var(--color-gray-300);
+      font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--color-gray-100);
+    }
+
+    /* ─── Sign Up Link ─────────────────────────────────────────── */
+    .signup-row {
+      text-align: center;
+      font-size: 14px;
+      color: var(--color-gray-300);
+    }
+    .signup-row a {
+      color: var(--color-primary-600);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .signup-row a:hover { color: var(--color-primary-700); text-decoration: underline; }
+
+    /* ─── Mobile first adjustments ─────────────────────────────── */
+    @media (max-width: 520px) {
+      .login-card {
+        padding: 36px 24px;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
     }
   </style>
 </head>
 <body>
-  <main>
-    <h1>Hello Alpha</h1>
+  <main class="login-card" role="main">
+
+    <!-- Logo -->
+    <div class="logo-area" aria-label="Trainders 로고">
+      <div class="logo-wordmark">Trainders</div>
+      <div class="logo-tagline">세탁을 맡기고 일상을 되찾으세요</div>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" novalidate>
+
+      <!-- Email -->
+      <div class="form-group" id="emailGroup">
+        <label class="form-label" for="email">이메일</label>
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="example@email.com"
+          autocomplete="email"
+          inputmode="email"
+          required
+        >
+        <span class="error-message" id="emailError" role="alert">올바른 이메일을 입력해주세요.</span>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group" id="passwordGroup">
+        <label class="form-label" for="password">비밀번호</label>
+        <div class="input-wrapper">
+          <input
+            class="form-input has-toggle"
+            type="password"
+            id="password"
+            name="password"
+            placeholder="비밀번호 입력"
+            autocomplete="current-password"
+            required
+          >
+          <button
+            type="button"
+            class="pw-toggle"
+            id="pwToggle"
+            aria-label="비밀번호 표시"
+            aria-pressed="false"
+          >
+            <!-- Eye icon (password hidden) -->
+            <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <!-- Eye-off icon (password visible) -->
+            <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <span class="error-message" id="passwordError" role="alert">비밀번호를 입력해주세요.</span>
+      </div>
+
+      <!-- Forgot password -->
+      <div class="forgot-row">
+        <a href="#" class="forgot-link">비밀번호를 잊으셨나요?</a>
+      </div>
+
+      <!-- Submit -->
+      <button type="submit" class="btn-primary" id="loginBtn">
+        <span class="btn-text">로그인</span>
+        <span class="btn-spinner" aria-hidden="true"></span>
+      </button>
+
+    </form>
+
+    <div class="divider">또는</div>
+
+    <div class="signup-row">
+      아직 계정이 없으신가요? <a href="#">회원가입</a>
+    </div>
+
   </main>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const emailGroup = document.getElementById('emailGroup');
+    const passwordGroup = document.getElementById('passwordGroup');
+    const loginBtn = document.getElementById('loginBtn');
+    const pwToggle = document.getElementById('pwToggle');
+
+    /* ── Password toggle ── */
+    pwToggle.addEventListener('click', () => {
+      const isVisible = pwToggle.classList.toggle('visible');
+      passwordInput.type = isVisible ? 'text' : 'password';
+      pwToggle.setAttribute('aria-label', isVisible ? '비밀번호 숨기기' : '비밀번호 표시');
+      pwToggle.setAttribute('aria-pressed', isVisible);
+      passwordInput.focus();
+    });
+
+    /* ── Validation helpers ── */
+    function validateEmail(val) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val.trim());
+    }
+    function setError(group, show) {
+      if (show) group.classList.add('error');
+      else group.classList.remove('error');
+    }
+
+    /* Clear errors on input */
+    emailInput.addEventListener('input', () => setError(emailGroup, false));
+    passwordInput.addEventListener('input', () => setError(passwordGroup, false));
+
+    /* ── Submit ── */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      let valid = true;
+      if (!validateEmail(emailInput.value)) {
+        setError(emailGroup, true);
+        valid = false;
+      }
+      if (!passwordInput.value.trim()) {
+        setError(passwordGroup, true);
+        valid = false;
+      }
+      if (!valid) return;
+
+      /* Loading state */
+      loginBtn.classList.add('loading');
+      loginBtn.disabled = true;
+
+      /* Simulate async (replace with real API call) */
+      await new Promise(r => setTimeout(r, 1800));
+
+      loginBtn.classList.remove('loading');
+      loginBtn.disabled = false;
+
+      /* TODO: handle real auth response */
+    });
+  </script>
 </body>
 </html>
